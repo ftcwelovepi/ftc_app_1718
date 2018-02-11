@@ -66,15 +66,15 @@ public class WLP_RR_Grabber {
     //  Declar Motors as private members
     private DcMotor spinnerLeft = null;
     private DcMotor spinnerRight = null;
-    private Servo armMover = null;
-    private DcMotor slider = null;
+    //private Servo armMover = null;
+    private DcMotor lift = null;
 
     private boolean spinIn = false;
     private boolean spinOut = false;
     private boolean clampOn = false;
-    private boolean ignoreButtonA = false;
-    private boolean ignoreButtonB = false;
-    private boolean ignoreButtonX = false;
+    private boolean pastStateA = false;
+    private boolean pastStateB = false;
+
 
 
 
@@ -107,8 +107,8 @@ public class WLP_RR_Grabber {
 
         spinnerLeft = hardwareMap.get(DcMotor.class, "spinnerLeft");
         spinnerRight = hardwareMap.get(DcMotor.class, "spinnerRight");
-        armMover = hardwareMap.get(Servo.class, "armMover");
-        // slider = hardwareMap.get(DcMotor.class, "slider");
+      //  armMover = hardwareMap.get(Servo.class, "armMover");
+         lift = hardwareMap.get(DcMotor.class, "lift");
 
         isInitialized = true;
         // Send telemetry message to signify that Grabber initialization complete
@@ -118,87 +118,97 @@ public class WLP_RR_Grabber {
 
     // During teleop, this function will be called repeatedly
     public void loop() {
-        double pos = armMover.getPosition();
+        //double pos = armMover.getPosition();
 
         if (isInitialized == false) {
             return;
         }
 
-        // Calculate and set motor powers
 
-        if (!ignoreButtonA) {
 
-            // Spinner: A button toggles the spinner inward
-            if (gamepad2.a) {
-                if (spinIn) {
-                    spinnerLeft.setPower(stopPower);
-                    spinnerRight.setPower(stopPower);
-                } else {
-                    spinnerLeft.setPower(spinnerPower);
-                    spinnerRight.setPower(-spinnerPower);
-                }
-                spinIn = !spinIn;
-                ignoreButtonA = true;
 
-            } else {
-                if (!gamepad2.a) {
-                    ignoreButtonA = false;
-                }
-            }
-            if (!ignoreButtonB) {
-                // Spinner: A button toggles the spinner outward
-                if (gamepad2.b) {
-                    if (spinOut) {
-                        spinnerLeft.setPower(stopPower);
-                        spinnerRight.setPower(stopPower);
-                    } else {
-                        spinnerLeft.setPower(-spinnerPower);
-                        spinnerRight.setPower(spinnerPower);
-                    }
-                    spinOut = !spinOut;
-                    ignoreButtonB = false;
-                } else {
-                    if (!gamepad2.b) {
-                        ignoreButtonB = false;
-                    }
-                }
+        if (!pastStateA && gamepad2.a){
+            if (spinIn) {
+                spinnerLeft.setPower(stopPower);
+                spinnerRight.setPower(stopPower);
+                spinIn = false;
+
+            } else {  //(if spinning out or stopped)
+                spinnerLeft.setPower(spinnerPower);
+                spinnerRight.setPower(-spinnerPower);
+                spinOut = false;
+                spinIn = true;
+
             }
 
-            if (!ignoreButtonX) {
-
-                // Spinner: X button toggles the clamp
-                if (gamepad2.x) {
-                    if (clampOn) {
-                        armMover.setPosition(armOpen);
-                    } else {
-                        armMover.setPosition(armClose);
-                    }
-                    clampOn = !clampOn;
-                    ignoreButtonX = false;
-                } else {
-                    if (!gamepad2.x) {
-                        ignoreButtonX = false;
-                    }
-                }
-            }
         }
+        pastStateA = gamepad2.a;
 
 
-        if (gamepad2.x) {
-            armMover.setPosition(armClose);
-        } else {
-            armMover.setPosition(armOpen);
+        if (!pastStateB && gamepad2.b){
+            if (spinOut) {
+                spinnerLeft.setPower(stopPower);
+                spinnerRight.setPower(stopPower);
+                spinOut = false;
+
+            } else {  //(if spinning in or stopped)
+                spinnerLeft.setPower(-spinnerPower);
+                spinnerRight.setPower(spinnerPower);
+                spinIn = false;
+                spinOut = true;
+
+            }
+
         }
+        pastStateB = gamepad2.b;
 
 
-        //Slider: RT - up, LT - down
+        // If the button is pressed and its not being ignored then the power changes
+  /*      if (gamepad2.a && !ignoreButtonA) {
+            if (spinIn) {
+                spinnerLeft.setPower(stopPower);
+                spinnerRight.setPower(stopPower);
+                spinIn = false;
+            } else {  //(if spinning out or stopped)
+                spinnerLeft.setPower(spinnerPower);
+                spinnerRight.setPower(-spinnerPower);
+                spinOut = false;
+                spinIn = true;
+            }
+            ignoreButtonA = true;
+        }
+*/
+
+        //When button is not pressed, ignore variable is set to false cuz idgaf
+ /*       if (!gamepad2.b) {
+            ignoreButtonB = false;
+        }
+        // If the button is pressed and its not being ignored then the power changes
+        if (gamepad2.b && !ignoreButtonB) {
+            if (spinOut) {
+                spinnerLeft.setPower(stopPower);
+                spinnerRight.setPower(stopPower);
+                spinOut = false;
+            } else { // if (spinning in or stopped)
+                spinnerLeft.setPower(-spinnerPower);
+                spinnerRight.setPower(spinnerPower);
+                spinIn = false;
+                spinOut = true;
+            }
+            ignoreButtonB = true;
+        }
+*/
+
+
+
+        //lift: RT - up, LT - down
         if (gamepad2.left_trigger > 0.0) {
-            slider.setPower(-gamepad2.left_trigger);
+            lift.setPower(-gamepad2.left_trigger * 0.5);
         } else if (gamepad2.right_trigger > 0.0) {
-            slider.setPower(gamepad2.right_trigger);
+            lift.setPower(gamepad2.right_trigger * 0.5);
         } else {
-            if (slider.getPower() != stopPower) {
-                slider.setPower(stopPower);
+            if (lift.getPower() != stopPower) {
+                lift.setPower(stopPower);
             }
         }
 
@@ -211,7 +221,7 @@ public class WLP_RR_Grabber {
 
         telemetry.addData("Motor ", "Spinner Left (%.2f)", spinnerLeft.getPower());
         telemetry.addData("Motor ", "Spinner Right (%.2f)", spinnerRight.getPower());
-        telemetry.addData("Servo ", "Arm Mover (%.2f)", armMover.getPosition());
-        telemetry.addData("Motor ", "Slider  (%.2f)", slider.getPower());
+        //telemetry.addData("Servo ", "Arm Mover (%.2f)", armMover.getPosition());
+        telemetry.addData("Motor ", "lift  (%.2f)", lift.getPower());
     }
 }

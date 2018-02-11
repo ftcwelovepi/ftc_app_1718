@@ -66,7 +66,7 @@ public class WLP_RR_TeleOP extends OpMode {
         // Send telemetry message to signify robot waiting;
         telemetry.addData("WLP_RR_TeleOp: ", "Initialization succeeded");
 
-        arm.setPosition(0.0);
+        //arm.setPosition(0.0);
 
 
     }
