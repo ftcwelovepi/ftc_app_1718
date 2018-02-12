@@ -30,6 +30,8 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 
+import android.media.MediaPlayer;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -37,6 +39,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.R;
 
 /**
  * This file provides necessary functionality for We Love Pi Team's 2017 Relic
@@ -49,8 +52,6 @@ public class WLP_RR_Grabber {
 
     // constants
     final double spinnerPower = 0.8;
-    final double armOpen = 1.0;
-    final double armClose = 0.0;
     final double stopPower = 0.0;
     final double stopPosition = 0.0;
 
@@ -66,19 +67,15 @@ public class WLP_RR_Grabber {
     //  Declar Motors as private members
     private DcMotor spinnerLeft = null;
     private DcMotor spinnerRight = null;
-    //private Servo armMover = null;
     private DcMotor lift = null;
 
     private boolean spinIn = false;
     private boolean spinOut = false;
-    private boolean clampOn = false;
     private boolean pastStateA = false;
     private boolean pastStateB = false;
+    MediaPlayer mySound;
 
 
-
-
-    private boolean grabberClosed = false;
 
     private boolean isInitialized = false;
 
@@ -100,6 +97,8 @@ public class WLP_RR_Grabber {
         this.hardwareMap = hardwareMap;
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
+        mySound = MediaPlayer.create(hardwareMap.appContext, R.raw.nani);
+        mySound.start();
 
         // Initialize the motors. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -107,7 +106,6 @@ public class WLP_RR_Grabber {
 
         spinnerLeft = hardwareMap.get(DcMotor.class, "spinnerLeft");
         spinnerRight = hardwareMap.get(DcMotor.class, "spinnerRight");
-      //  armMover = hardwareMap.get(Servo.class, "armMover");
          lift = hardwareMap.get(DcMotor.class, "lift");
 
         isInitialized = true;
@@ -163,43 +161,6 @@ public class WLP_RR_Grabber {
         pastStateB = gamepad2.b;
 
 
-        // If the button is pressed and its not being ignored then the power changes
-  /*      if (gamepad2.a && !ignoreButtonA) {
-            if (spinIn) {
-                spinnerLeft.setPower(stopPower);
-                spinnerRight.setPower(stopPower);
-                spinIn = false;
-            } else {  //(if spinning out or stopped)
-                spinnerLeft.setPower(spinnerPower);
-                spinnerRight.setPower(-spinnerPower);
-                spinOut = false;
-                spinIn = true;
-            }
-            ignoreButtonA = true;
-        }
-*/
-
-        //When button is not pressed, ignore variable is set to false cuz idgaf
- /*       if (!gamepad2.b) {
-            ignoreButtonB = false;
-        }
-        // If the button is pressed and its not being ignored then the power changes
-        if (gamepad2.b && !ignoreButtonB) {
-            if (spinOut) {
-                spinnerLeft.setPower(stopPower);
-                spinnerRight.setPower(stopPower);
-                spinOut = false;
-            } else { // if (spinning in or stopped)
-                spinnerLeft.setPower(-spinnerPower);
-                spinnerRight.setPower(spinnerPower);
-                spinIn = false;
-                spinOut = true;
-            }
-            ignoreButtonB = true;
-        }
-*/
-
-
 
         //lift: RT - up, LT - down
         if (gamepad2.left_trigger > 0.0) {
@@ -221,7 +182,6 @@ public class WLP_RR_Grabber {
 
         telemetry.addData("Motor ", "Spinner Left (%.2f)", spinnerLeft.getPower());
         telemetry.addData("Motor ", "Spinner Right (%.2f)", spinnerRight.getPower());
-        //telemetry.addData("Servo ", "Arm Mover (%.2f)", armMover.getPosition());
         telemetry.addData("Motor ", "lift  (%.2f)", lift.getPower());
     }
 }
