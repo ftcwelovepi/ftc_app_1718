@@ -144,10 +144,8 @@ public class WLP_MecanumDriveTrain {
 
         if(gamepad1.right_bumper) {
             left_x = -left_x;
-            left_y = -left_y;
         } else {
             left_x = +left_x;
-            left_y = +left_y;
         }
 
         // Update the joystick input to calculate  wheel powers
@@ -167,6 +165,7 @@ public class WLP_MecanumDriveTrain {
         telemetry.addData("Drive Train::FrontRightPower", "(%.2f)", frontRight.getPower());
         telemetry.addData("Drive Train::RearRightPower", "(%.2f)", rearRight.getPower());
         telemetry.addData("Drive Train::RearLeftPower", "(%.2f)", rearLeft.getPower());
+        
 
     }
 }
