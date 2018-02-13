@@ -30,6 +30,8 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
 
+import android.media.MediaPlayer;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -37,6 +39,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.R;
 
 /**
  * This file provides necessary functionality for We Love Pi Team's 2017 Relic
@@ -48,12 +51,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class WLP_RR_Grabber {
 
     // constants
-    final double spinnerPower = 0.5;
-    final double armOpen = 0.8;
-    final double armClose = 0.0;
+    final double spinnerPower = 0.8;
     final double stopPower = 0.0;
     final double stopPosition = 0.0;
-    final long  buttonDelay = 500;
+
 
 
     // Global variables to be initialized in init function
@@ -66,15 +67,15 @@ public class WLP_RR_Grabber {
     //  Declar Motors as private members
     private DcMotor spinnerLeft = null;
     private DcMotor spinnerRight = null;
-    private Servo armMover = null;
-    private DcMotor slider = null;
+    private DcMotor lift = null;
 
     private boolean spinIn = false;
     private boolean spinOut = false;
-    private boolean clampOn = false;
-    ElapsedTime buttontime = new ElapsedTime();
+    private boolean pastStateA = false;
+    private boolean pastStateB = false;
+    MediaPlayer mySound;
 
-    private boolean  grabberClosed  = false;
+
 
     private boolean isInitialized = false;
 
@@ -96,6 +97,8 @@ public class WLP_RR_Grabber {
         this.hardwareMap = hardwareMap;
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
+        mySound = MediaPlayer.create(hardwareMap.appContext, R.raw.nani);
+        mySound.start();
 
         // Initialize the motors. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
@@ -103,8 +106,7 @@ public class WLP_RR_Grabber {
 
         spinnerLeft = hardwareMap.get(DcMotor.class, "spinnerLeft");
         spinnerRight = hardwareMap.get(DcMotor.class, "spinnerRight");
-        armMover = hardwareMap.get(Servo.class, "armMover");
-        // slider = hardwareMap.get(DcMotor.class, "slider");
+         lift = hardwareMap.get(DcMotor.class, "lift");
 
         isInitialized = true;
         // Send telemetry message to signify that Grabber initialization complete
@@ -114,65 +116,63 @@ public class WLP_RR_Grabber {
 
     // During teleop, this function will be called repeatedly
     public void loop() {
-        double pos = armMover.getPosition();
+        //double pos = armMover.getPosition();
 
         if (isInitialized == false) {
             return;
         }
 
-        // Calculate and set motor powers
 
-        if (buttontime.milliseconds() > buttonDelay) {
 
-            // Spinner: A button toggles the spinner inward
-            if (gamepad2.a) {
-                if (spinIn) {
-                    spinnerLeft.setPower(stopPower);
-                    spinnerRight.setPower(stopPower);
-                } else {
-                    spinnerLeft.setPower(spinnerPower);
-                    spinnerRight.setPower(-spinnerPower);
-                }
-                spinIn = !spinIn;
+
+        if (!pastStateA && gamepad2.a){
+            if (spinIn) {
+                spinnerLeft.setPower(stopPower);
+                spinnerRight.setPower(stopPower);
+                spinIn = false;
+
+            } else {  //(if spinning out or stopped)
+                spinnerLeft.setPower(spinnerPower);
+                spinnerRight.setPower(-spinnerPower);
+                spinOut = false;
+                spinIn = true;
 
             }
 
-            // Spinner: A button toggles the spinner outward
-            if (gamepad2.b) {
-                if (spinOut) {
-                    spinnerLeft.setPower(stopPower);
-                    spinnerRight.setPower(stopPower);
-                } else {
-                    spinnerLeft.setPower(-spinnerPower);
-                    spinnerRight.setPower(spinnerPower);
-                }
-                spinOut = !spinOut;
-            }
-
-            // Spinner: X button toggles the clamp
-            if (gamepad2.x) {
-                if (clampOn) {
-                    armMover.setPosition(armOpen);
-                } else {
-                    armMover.setPosition(armClose);
-                }
-                clampOn = !clampOn;
-            }
-            buttontime.reset();
         }
+        pastStateA = gamepad2.a;
 
-/*
-        // Slider: RT - up, LT - down
+
+        if (!pastStateB && gamepad2.b){
+            if (spinOut) {
+                spinnerLeft.setPower(stopPower);
+                spinnerRight.setPower(stopPower);
+                spinOut = false;
+
+            } else {  //(if spinning in or stopped)
+                spinnerLeft.setPower(-spinnerPower);
+                spinnerRight.setPower(spinnerPower);
+                spinIn = false;
+                spinOut = true;
+
+            }
+
+        }
+        pastStateB = gamepad2.b;
+
+
+
+        //lift: RT - up, LT - down
         if (gamepad2.left_trigger > 0.0) {
-            slider.setPower(-gamepad2.left_trigger);
+            lift.setPower(-gamepad2.left_trigger * 0.5);
         } else if (gamepad2.right_trigger > 0.0) {
-            slider.setPower(gamepad2.right_trigger);
+            lift.setPower(gamepad2.right_trigger * 0.5);
         } else {
-            if (slider.getPower() != stopPower) {
-                slider.setPower(stopPower);
+            if (lift.getPower() != stopPower) {
+                lift.setPower(stopPower);
             }
         }
-*/
+
         telemetry.addData("Gamepad2 ", "left trigger (%.2f)", gamepad2.left_trigger);
         telemetry.addData("Gamepad2 ", "right trigger (%.2f)", gamepad2.right_trigger);
         telemetry.addData("Gamepad2 ", "A (%b)", gamepad2.a);
@@ -182,7 +182,6 @@ public class WLP_RR_Grabber {
 
         telemetry.addData("Motor ", "Spinner Left (%.2f)", spinnerLeft.getPower());
         telemetry.addData("Motor ", "Spinner Right (%.2f)", spinnerRight.getPower());
-        telemetry.addData("Servo ", "Arm Mover (%.2f)", armMover.getPosition());
-        // telemetry.addData("Motor ", "Slider  (%.2f)", slider.getPower());
+        telemetry.addData("Motor ", "lift  (%.2f)", lift.getPower());
     }
 }
