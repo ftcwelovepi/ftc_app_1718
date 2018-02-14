@@ -39,7 +39,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.R;
 
 /**
  * This file provides necessary functionality for We Love Pi Team's 2017 Relic
@@ -73,8 +72,6 @@ public class WLP_RR_Grabber {
     private boolean spinOut = false;
     private boolean pastStateA = false;
     private boolean pastStateB = false;
-    MediaPlayer mySound;
-
 
 
     private boolean isInitialized = false;
@@ -97,8 +94,6 @@ public class WLP_RR_Grabber {
         this.hardwareMap = hardwareMap;
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
-        mySound = MediaPlayer.create(hardwareMap.appContext, R.raw.nani);
-        mySound.start();
 
         // Initialize the motors. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
