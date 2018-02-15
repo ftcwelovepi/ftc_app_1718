@@ -13,7 +13,7 @@ public class TestAuto_Red extends Auto {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        myRunOpMode(.5, 15, ColorSensor.ColorName.RED, true , -0.5, 1300, 70, -85, 0.3,15);
+        myRunOpMode(.5, 15, ColorSensor.ColorName.RED, true , -0.5, 1300, -85,-0.3,1350,85,-0.3,1100,0.3,1000);
 
     }
 }

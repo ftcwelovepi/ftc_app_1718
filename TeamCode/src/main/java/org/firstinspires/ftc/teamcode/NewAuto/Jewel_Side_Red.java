@@ -12,6 +12,6 @@ public class Jewel_Side_Red extends Auto{
     @Override
     public void runOpMode() throws InterruptedException {
 
-        myRunOpMode(.5, 15, ColorSensor.ColorName.RED, false, 0, 0, 0, 0,0,0 );
+        //myRunOpMode(.5, 15, ColorSensor.ColorName.RED, false, 0, 0);
     }
 }

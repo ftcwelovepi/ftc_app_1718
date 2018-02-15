@@ -128,11 +128,11 @@ public class WLP_MecanumDriveTrain {
             left_y = max_stick;
         } else if (gamepad1.dpad_down) {
             left_y = min_stick;
-        }else if(gamepad1.left_trigger > 0 && gamepadSum != 0) {
+        }else if(gamepad1.left_trigger > 0) {
             left_x = gamepad1.left_stick_x * left_toggle;
             left_y = gamepad1.left_stick_y * left_toggle;
             right_x = gamepad1.right_stick_x * left_toggle;
-        }else if(gamepad1.right_trigger > 0 && gamepadSum != 0){
+        }else if(gamepad1.right_trigger > 0){
             left_x = gamepad1.left_stick_x * right_toggle;
             left_y = gamepad1.left_stick_y * right_toggle;
             right_x = gamepad1.right_stick_x * right_toggle;

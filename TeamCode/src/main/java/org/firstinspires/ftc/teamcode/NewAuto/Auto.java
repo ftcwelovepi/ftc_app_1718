@@ -42,7 +42,7 @@ package org.firstinspires.ftc.teamcode.NewAuto;
 
 public abstract class Auto extends initAuto {
 
-    public void myRunOpMode(double SPEED_KNOCK, int jewelTurn, ColorSensor.ColorName teamColor, boolean runMovement, double SPEED_MOVEMENT, long MOVE_TIME, double DISTANCE_MOVE, int ANGLE_TURN, double FINAL_SPEED, double FINAL_DISTANCE) {
+    public void myRunOpMode(double SPEED_KNOCK, int jewelTurn, ColorSensor.ColorName teamColor, boolean runMovement, double SPEED_MOVEMENT, long MOVE_TIME, int ANGLE_TURN, double CYRPTOBOX_SPEED, long CYRPTOBOX_TIME, int ANGLE_TURN_CYRPTO, double PLACE_BLOCK_SPEED, long PLACE_BLOCK_TIME, double BACKOUT_SPEED, long BACKOUT_TIME) {
 
         initHardware();
 
@@ -108,13 +108,16 @@ public abstract class Auto extends initAuto {
             mySleep(1000);
             drivetrain.gyroTurn(Math.abs(SPEED_MOVEMENT), ANGLE_TURN);
             mySleep(1000);
-            moveTime(-0.3, 0, 0, 1200);
+            moveTime(CYRPTOBOX_SPEED, 0, 0, CYRPTOBOX_TIME);
+            mySleep(1000);
+            drivetrain.gyroTurn(Math.abs(CYRPTOBOX_SPEED*1.25), ANGLE_TURN_CYRPTO);
+            mySleep(1000);
+            moveTime(PLACE_BLOCK_SPEED, 0, 0, PLACE_BLOCK_TIME);
+            mySleep(1000);
             drivetrain.grabber_out(.3);
             mySleep(1000);
-            moveTime(.3, 0,0, 1000);
+            moveTime(BACKOUT_SPEED, 0, 0, BACKOUT_TIME);
 
         }
-
-
     }
 }

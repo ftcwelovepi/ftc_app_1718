@@ -30,6 +30,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -47,7 +48,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name= "WLP_RR_Autonomous_Red", group = "We Love PI")
-
+@Disabled
 public class WLP_RR_AutonomousRed extends LinearOpMode {
     //me llamo malin
     static final double     SPEED_STRAIGHT = -0.4;

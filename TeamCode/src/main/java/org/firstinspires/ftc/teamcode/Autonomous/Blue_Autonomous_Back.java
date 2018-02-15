@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.*;
 
@@ -22,6 +23,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Autonomous(name = "Blue_Autonomous_Back",group="We Love Pi")
+@Disabled
 public class Blue_Autonomous_Back extends LinearOpMode {
 
     Autonomous_Functions af = new Autonomous_Functions();

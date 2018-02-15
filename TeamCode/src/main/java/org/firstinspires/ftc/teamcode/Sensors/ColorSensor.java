@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  * Created by Swagster_Wagster on 10/25/17.
  */
 @Autonomous(name = "ColorSensor")
+@Disabled
 public class ColorSensor extends LinearOpMode {
 
     com.qualcomm.robotcore.hardware.ColorSensor colorSensor;    // Hardware Device Object

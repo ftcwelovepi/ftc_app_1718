@@ -75,9 +75,9 @@ import org.firstinspires.ftc.teamcode.TeleOp.WLP_MecanumWheels;
 
 public class Movement {
 
-    static final double     COUNTS_PER_MOTOR_REV    = 7 ;  // NeveRest Classic 40 Gearmotor (am-2964a)
+    static final double     COUNTS_PER_MOTOR_REV    = 7;  // NeveRest Classic 40 Gearmotor (am-2964a)
     static final double     DRIVE_GEAR_REDUCTION    = 40 ;   // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0;
+    static final double     WHEEL_DIAMETER_INCHES   = 4.0;   // circumference 12.57
     static final double     WHEEL_DIAMETER_CM       =  10.16;  // 4 inches = 10.16 cm
 
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
@@ -209,6 +209,44 @@ public class Movement {
         rearLeft.setPower(rl);
         rearRight.setPower(rr);
     }
+
+    public void moveWithEncoder (double x, double y, int distance) {
+
+        int moveAmout;
+
+        setRunMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        setRunMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        moveAmout = (int) (distance * COUNTS_PER_CM);
+
+        frontLeft.setTargetPosition (moveAmout);
+       // frontRight.setTargetPosition (moveAmout);
+        rearLeft.setTargetPosition  (moveAmout);
+       // rearRight.setTargetPosition (moveAmout);
+
+        setRunMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+       //move(x,y, 0);
+
+        frontLeft.setPower(x);
+        rearLeft.setPower(x);
+
+        while(frontLeft.isBusy() && rearLeft.isBusy()) {
+
+            telemetry.addData("Front Left current ", frontLeft.getCurrentPosition());
+           // telemetry.addData("Front Right current ", frontRight.getCurrentPosition());
+            telemetry.addData("Rear Left current ", rearLeft.getCurrentPosition());
+           // telemetry.addData("Rear Right current ", rearRight.getCurrentPosition());
+            telemetry.update();
+
+        }
+        stopMotors();
+
+        setRunMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+
 
     public void stopMotors() {
 

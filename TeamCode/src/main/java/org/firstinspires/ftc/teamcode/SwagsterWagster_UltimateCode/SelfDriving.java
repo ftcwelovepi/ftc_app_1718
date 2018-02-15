@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.SwagsterWagster_UltimateCode;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -15,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Autonomous.Autonomous_Functions;
 
 
 @TeleOp(name="Self Driving", group="We Love Pi")
-
+@Disabled
 public class SelfDriving extends LinearOpMode {
 
 
