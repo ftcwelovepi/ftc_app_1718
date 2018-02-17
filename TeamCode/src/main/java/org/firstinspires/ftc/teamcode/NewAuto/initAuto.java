@@ -24,6 +24,7 @@ public abstract  class initAuto extends LinearOpMode {
         arm.init(telemetry, hardwareMap);
         colorSensor.init(telemetry, hardwareMap);
         drivetrain.init(telemetry, hardwareMap, this);
+        imageReg.init(hardwareMap);
 
     }
 

@@ -70,7 +70,7 @@ public class ColorSensor {
         RED, BLUE, GREEN, UNKNOWN
     }
 
-    static public final int COLOR_THRESHOLD = 10;
+    static public final int COLOR_THRESHOLD = 6;
     // Global variables to be initialized in init function
     private Telemetry telemetry = null;
     private HardwareMap hardwareMap = null;

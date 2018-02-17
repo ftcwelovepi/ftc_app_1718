@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.NewAuto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 
 @Autonomous(name = "encoders", group = "We Love Pi")
+@Disabled
 public class encoders extends initAuto {
 
     @Override

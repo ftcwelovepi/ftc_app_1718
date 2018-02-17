@@ -45,7 +45,7 @@ public class ImageReg {
         boolean found = false;
         RelicRecoveryVuMark vuMark = null;
 
-        while (!found && time.seconds() < 5) {
+        while (!found && time.seconds() < 10) {
             vuMark = RelicRecoveryVuMark.from(relicTemplate);
             if (vuMark == RelicRecoveryVuMark.LEFT || vuMark == RelicRecoveryVuMark.RIGHT || vuMark == RelicRecoveryVuMark.CENTER) {
 

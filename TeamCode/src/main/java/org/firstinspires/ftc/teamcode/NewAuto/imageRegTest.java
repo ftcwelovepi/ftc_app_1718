@@ -18,6 +18,7 @@ import org.firstinspires.ftc.robotcore.external.ClassFactory;
 public class imageRegTest extends LinearOpMode {
 
     ImageReg imageReg = new ImageReg();
+    RelicRecoveryVuMark image;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -26,7 +27,8 @@ public class imageRegTest extends LinearOpMode {
 
         waitForStart();
 
-        telemetry.addData("Vumark is", imageReg.ScanImage());
+        image = imageReg.ScanImage();
+        telemetry.addData("Vumark is ", image);
         telemetry.update();
         sleep(10000);
     }

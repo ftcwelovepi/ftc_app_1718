@@ -5,7 +5,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 public abstract class Auto extends initAuto {
 
-    public void myRunOpMode(double SPEED_KNOCK, int jewelTurn, ColorSensor.ColorName teamColor, boolean runMovement, boolean subtractLeft, double SPEED_MOVEMENT, long MOVE_TIME, int ANGLE_TURN, double CYRPTOBOX_SPEED, long CYRPTOBOX_TIME, int ANGLE_TURN_CYRPTO, double PLACE_BLOCK_SPEED, long PLACE_BLOCK_TIME, double BACKOUT_SPEED, long BACKOUT_TIME) {
+    public void myRunOpMode(double SPEED_KNOCK, int jewelTurn, ColorSensor.ColorName teamColor, boolean runMovement, boolean subtractLeft, boolean adjustMove, double SPEED_MOVEMENT, long MOVE_TIME, int ANGLE_TURN, double CYRPTOBOX_SPEED, long CYRPTOBOX_TIME, int ANGLE_TURN_CYRPTO, double PLACE_BLOCK_SPEED, long PLACE_BLOCK_TIME, double BACKOUT_SPEED, long BACKOUT_TIME) {
 
         long keyAdujustment = 450; // 50 millisecond per inch at 0.3 power
 
@@ -19,20 +19,38 @@ public abstract class Auto extends initAuto {
 
         RelicRecoveryVuMark image = imageReg.ScanImage();
 
-        if (!subtractLeft) {
 
+        if (!subtractLeft) {
             keyAdujustment *= -1.0;
 
         }
 
-        if (image == RelicRecoveryVuMark.LEFT) {
+        if (adjustMove) {
 
-            MOVE_TIME -= keyAdujustment;
+            if (image == RelicRecoveryVuMark.LEFT) {
 
-        } else if (image == RelicRecoveryVuMark.RIGHT) {
+                MOVE_TIME -= keyAdujustment;
 
-            MOVE_TIME += keyAdujustment;
+            } else if (image == RelicRecoveryVuMark.RIGHT) {
+
+                MOVE_TIME += keyAdujustment;
+            }
+
+
+        } else{
+
+            if (image == RelicRecoveryVuMark.LEFT) {
+
+                CYRPTOBOX_TIME -= keyAdujustment;
+
+            } else if (image == RelicRecoveryVuMark.RIGHT) {
+
+                CYRPTOBOX_TIME += keyAdujustment;
+            }
+
         }
+
+
 
         telemetry.addData("image is ", image);
         telemetry.addData("move time is", MOVE_TIME);
@@ -98,7 +116,7 @@ public abstract class Auto extends initAuto {
             mySleep(1000);
             moveTime(CYRPTOBOX_SPEED, 0, 0, CYRPTOBOX_TIME);
             mySleep(1000);
-            drivetrain.gyroTurn(Math.abs(CYRPTOBOX_SPEED * 1.25), ANGLE_TURN_CYRPTO);
+            drivetrain.gyroTurn(Math.abs(CYRPTOBOX_SPEED*1.25), ANGLE_TURN_CYRPTO);
             mySleep(1000);
             moveTime(PLACE_BLOCK_SPEED, 0, 0, PLACE_BLOCK_TIME);
             mySleep(1000);
