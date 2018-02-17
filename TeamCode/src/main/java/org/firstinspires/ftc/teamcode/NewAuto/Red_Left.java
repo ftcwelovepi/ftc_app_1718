@@ -12,7 +12,7 @@ public class Red_Left extends Auto {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        autoOpMode(ColorSensor.ColorName.RED, false);
+        autoOpMode(ColorSensor.ColorName.RED, true, false);
     }
 }
 

@@ -12,6 +12,6 @@ public class Blue_Left extends Auto {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        autoOpMode(ColorSensor.ColorName.BLUE, false);
+        autoOpMode(ColorSensor.ColorName.BLUE, true,false);
     }
 }

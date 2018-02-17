@@ -35,46 +35,19 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-/*
- * This is an example LinearOpMode that shows how to use
- * the REV Robotics Color-Distance Sensor.
- *
- * It assumes the sensor is configured with the name "sensor_color_distance".
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
- */
-
 public class ColorSensor {
 
-
-    /**
-     * Note that the REV Robotics Color-Distance incorporates two sensors into one device.
-     * It has a light/distance (range) sensor.  It also has an RGB color sensor.
-     * The light/distance sensor saturates at around 2" (5cm).  This means that targets that are 2"
-     * or closer will display the same value for distance/light detected.
-     * <p>
-     * Although you configure a single REV Robotics Color-Distance sensor in your configuration file,
-     * you can treat the sensor as two separate sensors that share the same name in your op mode.
-     * <p>
-     * In this example, we represent the detected color by a hue, saturation, and value color
-     * model (see https://en.wikipedia.org/wiki/HSL_and_HSV).  We change the background
-     * color of the screen to match the detected color.
-     * <p>
-     * In this example, we  also use the distance sensor to display the distance
-     * to the target object.  Note that the distance sensor saturates at around 2" (5 cm).
-     */
 
     // Constants
     public enum ColorName {
         RED, BLUE, GREEN, UNKNOWN
     }
 
-    static public final int COLOR_THRESHOLD = 6;
+    static public final int COLOR_THRESHOLD = 12;
     // Global variables to be initialized in init function
     private Telemetry telemetry = null;
     private HardwareMap hardwareMap = null;
-    private com.qualcomm.robotcore.hardware.ColorSensor sensorColor = null;
+    public com.qualcomm.robotcore.hardware.ColorSensor sensorColor = null;
     private DistanceSensor sensorDistance = null;
     private boolean isInitialized = false;
     // Default constructor
@@ -100,8 +73,9 @@ public class ColorSensor {
         isInitialized = true;
         telemetry.addData("Color Sensor", "Initialization succeeded");
     }
-/*
+
     public void testColor() {
+
         int r = sensorColor.red();
         int g = sensorColor.green();
         int b = sensorColor.blue();
@@ -116,33 +90,43 @@ public class ColorSensor {
         telemetry.update();
     }
 
-    */
-
     // Main method that returns currently seen color name
     public ColorName getColor() {
 
-        // Detect 10 times and get the average
-        int tryCount = 10;
-
         int red = 0;
         int blue = 0;
-        int green = 0;
 
-        for (int i=0; i<tryCount; i++) {
+        for (int i = 0; i < 10; i++) {
+
+
             red += sensorColor.red();
             blue += sensorColor.blue();
-            green += sensorColor.green();
-            sleep(20);
+
+            telemetry.clear();
+            telemetry.addData("red value ", red);
+            telemetry.addData("blue value", blue);
+            telemetry.update();
+
+            sleep(100);
+
         }
 
-        red = red/tryCount;
-        blue = blue/tryCount;
+        telemetry.clear();
+        telemetry.addData("red is", red);
+        telemetry.addData("blue is", blue);
+        telemetry.update();
+        sleep(1000);
 
-        if (red >= COLOR_THRESHOLD && red > blue) {
+        red = red/10;
+        blue = blue /10;
+
+        if (red - blue > COLOR_THRESHOLD && red > blue) {
+
             return ColorName.RED;
         }
 
-        if (blue >= COLOR_THRESHOLD && blue > red) {
+        if (blue > COLOR_THRESHOLD && blue > red) {
+
             return ColorName.BLUE;
         }
 

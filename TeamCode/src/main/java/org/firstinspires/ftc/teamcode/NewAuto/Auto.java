@@ -5,7 +5,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 
 public abstract class Auto extends initAuto {
 
-    public void autoOpMode(ColorSensor.ColorName teamColor, boolean right) {
+    public void autoOpMode(ColorSensor.ColorName teamColor, boolean runMovement, boolean right) {
 
         int sleep_time = 300;
         double grabber_speed = 0.5;
@@ -35,7 +35,7 @@ public abstract class Auto extends initAuto {
         arm.lowerArm();
         telemetry.addData("Autonomous", "Arm Lowered ");
         telemetry.update();
-        sleep(sleep_time);
+        sleep(1000);
 
         // Knock the Jewel
 
@@ -57,6 +57,7 @@ public abstract class Auto extends initAuto {
             }
 
             telemetry.clear();
+            telemetry.addData("jewel color", jewelColor);
             telemetry.addData("Autonomous", "knocking jewel");
             telemetry.update();
             drivetrain.gyroTurn(0.5, jewelTurn);
@@ -77,105 +78,113 @@ public abstract class Auto extends initAuto {
 
         }
 
-        if (right && teamColor == ColorSensor.ColorName.BLUE) {
+        if (runMovement) {
 
-            sleep(sleep_time);
+            if (right && teamColor == ColorSensor.ColorName.BLUE) {
 
-            int position_time = 1850;
-            if (image == RelicRecoveryVuMark.LEFT) {
-                position_time = 1250;
-            } else if (image == RelicRecoveryVuMark.RIGHT) {
-                position_time = 2350;
+                sleep(sleep_time);
+
+                int position_time = 1600;
+                if (image == RelicRecoveryVuMark.LEFT) {
+                    position_time = 1150;
+                } else if (image == RelicRecoveryVuMark.RIGHT) {
+                    position_time = 2150;
+                }
+
+                moveTime(0.5, 0, 0, position_time); // Move backwards to position.
+                sleep(sleep_time);
+
+                drivetrain.gyroTurn(0.5, 85); // Turn towards box.
+                sleep(sleep_time);
+
+                moveTime(-0.3, 0, 0, 1350); // Go towards box.
+                sleep(sleep_time);
+
+            } else if (!right && teamColor == ColorSensor.ColorName.BLUE) {
+
+                sleep(sleep_time);
+
+                moveTime(0.5, 0, 0, 1600); // Move off of balance.
+                sleep(sleep_time);
+
+                drivetrain.gyroTurn(0.5, -85); // Turn.
+                sleep(sleep_time);
+
+
+                int position_time = 300;
+                if (image == RelicRecoveryVuMark.CENTER) {
+                    position_time = 700;
+                } else if (image == RelicRecoveryVuMark.RIGHT) {
+                    position_time = 1300;
+                }
+
+                moveTime(-0.5, 0, 0, position_time); // Move forwards to position.
+                sleep(sleep_time);
+
+
+                drivetrain.gyroTurn(0.5, -85); // Turn towards box.
+                sleep(sleep_time);
+
+                moveTime(-0.3, 0, 0, 1550); // Go towards box.
+                sleep(sleep_time);
+
+            } else if (right && teamColor == ColorSensor.ColorName.RED) {
+
+                sleep(sleep_time);
+
+                moveTime(-0.5, 0, 0, 1600); // Move off of balance.
+                sleep(sleep_time);
+
+                drivetrain.gyroTurn(0.5, -85); // Turn.
+                sleep(sleep_time);
+
+                int position_time;
+
+                if (image == RelicRecoveryVuMark.RIGHT) {
+                    position_time = 300;
+                } else if (image == RelicRecoveryVuMark.LEFT) {
+                    position_time = 1200;
+                } else {
+                    position_time = 700;
+                }
+
+                moveTime(-0.5, 0, 0, position_time); // Move forwards to position.
+                sleep(sleep_time);
+
+
+                drivetrain.gyroTurn(0.5, 85); // Turn towards box.
+                sleep(sleep_time);
+
+                moveTime(-0.3, 0, 0, 1750); // Go towards box.
+                sleep(sleep_time);
+
+            } else if (!right && teamColor == ColorSensor.ColorName.RED) {
+
+                sleep(sleep_time);
+
+                int position_time = 1550;
+                if (image == RelicRecoveryVuMark.CENTER) {
+                    position_time = 2100;
+                } else if (image == RelicRecoveryVuMark.LEFT) {
+                    position_time = 2600;
+                }
+
+                moveTime(-0.5, 0, 0, position_time); // Move forwards to position.
+
+                sleep(sleep_time);
+
+                drivetrain.gyroTurn(0.5, 85); // Turn towards box.
+                sleep(sleep_time);
+
+                moveTime(-0.3, 0, 0, 1550); // Go towards box.
+                sleep(sleep_time);
             }
 
-            moveTime(0.5, 0, 0, position_time); // Move backwards to position.
+            drivetrain.grabber_out(grabber_speed); // Spit out.
             sleep(sleep_time);
 
-            drivetrain.gyroTurn(0.5, 85); // Turn towards box.
-            sleep(sleep_time);
-
-            moveTime(-0.3, 0, 0, 1350); // Go towards box.
-            sleep(sleep_time);
-
-        } else if (!right && teamColor == ColorSensor.ColorName.BLUE) {
-
-            sleep(sleep_time);
-
-            moveTime(0.5, 0, 0, 1600); // Move off of balance.
-            sleep(sleep_time);
-
-            drivetrain.gyroTurn(0.5, -85); // Turn.
-            sleep(sleep_time);
-
-
-            int position_time = 600;
-            if (image == RelicRecoveryVuMark.CENTER) {
-                position_time = 1200;
-            } else if (image == RelicRecoveryVuMark.RIGHT) {
-                position_time = 1800;
-            }
-
-            moveTime(-0.5, 0, 0, position_time); // Move forwards to position.
-            sleep(sleep_time);
-
-
-            drivetrain.gyroTurn(0.5, -85); // Turn towards box.
-            sleep(sleep_time);
-
-            moveTime(-0.3, 0, 0, 1550); // Go towards box.
-            sleep(sleep_time);
-
-        } else if (right && teamColor == ColorSensor.ColorName.RED) {
-            sleep(sleep_time);
-
-            moveTime(-0.5, 0, 0, 1600); // Move off of balance.
-            sleep(sleep_time);
-
-            drivetrain.gyroTurn(0.5, -85); // Turn.
-            sleep(sleep_time);
-
-
-            int position_time = 500;
-            if (image == RelicRecoveryVuMark.CENTER) {
-                position_time = 1100;
-            } else if (image == RelicRecoveryVuMark.LEFT) {
-                position_time = 1700;
-            }
-
-            moveTime(-0.5, 0, 0, position_time); // Move forwards to position.
-            sleep(sleep_time);
-
-
-            drivetrain.gyroTurn(0.5, 85); // Turn towards box.
-            sleep(sleep_time);
-
-            moveTime(-0.3, 0, 0, 1550); // Go towards box.
-            sleep(sleep_time);
-
-        } else if (!right && teamColor == ColorSensor.ColorName.RED) {
-            sleep(sleep_time);
-
-
-            int position_time = 1850;
-            if (image == RelicRecoveryVuMark.CENTER) {
-                position_time = 1250;
-            } else if (image == RelicRecoveryVuMark.LEFT) {
-                position_time = 2350;
-            }
-
-            moveTime(-0.5, 0, 0, position_time); // Move forwards to position.
-
-            drivetrain.gyroTurn(0.5, 85); // Turn towards box.
-            sleep(sleep_time);
-
-            moveTime(-0.3, 0, 0, 1350); // Go towards box.
-            sleep(sleep_time);
+            moveTime(0.3, 0, 0, 1000);
         }
-
-        drivetrain.grabber_out(grabber_speed); // Spit out.
-        sleep(sleep_time);
-
-        moveTime(0.3, 0, 0, 1000);
     }
 
     public void myRunOpMode(double SPEED_KNOCK, int jewelTurn, ColorSensor.ColorName teamColor, boolean runMovement, boolean subtractLeft, boolean adjustMove, double SPEED_MOVEMENT, long MOVE_TIME, int ANGLE_TURN, double CYRPTOBOX_SPEED, long CYRPTOBOX_TIME, int ANGLE_TURN_CYRPTO, double PLACE_BLOCK_SPEED, long PLACE_BLOCK_TIME, double BACKOUT_SPEED, long BACKOUT_TIME) {
