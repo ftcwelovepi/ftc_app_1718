@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Created by Swagster_Wagster on 2/16/18.
  */
 
-@Autonomous(name= "Red_Left", group = "We Love PI")
+@Autonomous(name= "old_Red_Left", group = "We Love PI")
 public class Red_Front  extends Auto {
 
     @Override
