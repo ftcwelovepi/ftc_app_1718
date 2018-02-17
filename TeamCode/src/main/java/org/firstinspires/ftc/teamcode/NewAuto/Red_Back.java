@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
  * Created by Swagster_Wagster on 2/5/18.
  */
 
-@Autonomous(name= "Auto Test Red", group = "We Love PI")
-
-public class TestAuto_Red extends Auto {
+@Autonomous(name= "Red_Back", group = "We Love PI")
+public class Red_Back extends Auto {
 
     @Override
     public void runOpMode() throws InterruptedException {

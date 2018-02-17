@@ -19,9 +19,10 @@ public class encoders extends initAuto {
 
         waitForStart();
 
-        drivetrain.moveWithEncoder(0.6, 0, 150);
-        mySleep(1000);
-        drivetrain.moveWithEncoder(0.6, 0, -150);
-        mySleep(1000);
+
+        while (opModeIsActive()) {
+            drivetrain.moveWithEncoder(0.6, 0, 1000);
+        }//moveWithEncoder(.3, 0, 1000);
+
     }
 }
