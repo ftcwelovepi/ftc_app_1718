@@ -17,7 +17,6 @@ public abstract class Auto extends initAuto {
 
         telemetry.clear();
 
-        telemetry.addData("Autonomous", "initing");
         telemetry.addData("Autonomous", "initialized");
         telemetry.update();
 
@@ -51,7 +50,7 @@ public abstract class Auto extends initAuto {
 
         sleep(sleep_time);
 
-        // knock jewel
+        // knock jewel, if the jewel color is not unknown
         if (jewelColor != ColorSensor.ColorName.UNKNOWN) {
 
             if (jewelColor == teamColor) {
@@ -83,9 +82,10 @@ public abstract class Auto extends initAuto {
 
         }
 
-        // movement
+        // movement to put glyph in cyrptobox
         if (runMovement) {
 
+            //right side and team color blue
             if (right && teamColor == ColorSensor.ColorName.BLUE) {
 
                 sleep(sleep_time);
@@ -106,7 +106,10 @@ public abstract class Auto extends initAuto {
                 moveTime(-0.3, 0, 0, 1350); // Go towards box.
                 sleep(sleep_time);
 
-            } else if (!right && teamColor == ColorSensor.ColorName.BLUE) {
+            }
+
+            //left side and team color blue
+            else if (!right && teamColor == ColorSensor.ColorName.BLUE) {
 
                 sleep(sleep_time);
 
@@ -134,7 +137,9 @@ public abstract class Auto extends initAuto {
                 moveTime(-0.3, 0, 0, 1550); // Go towards box.
                 sleep(sleep_time);
 
-            } else if (right && teamColor == ColorSensor.ColorName.RED) {
+            }
+            // right side and team color red
+            else if (right && teamColor == ColorSensor.ColorName.RED) {
 
                 sleep(sleep_time);
 
@@ -147,11 +152,11 @@ public abstract class Auto extends initAuto {
                 int position_time;
 
                 if (image == RelicRecoveryVuMark.RIGHT) {
-                    position_time = 300;
+                    position_time = 400;
                 } else if (image == RelicRecoveryVuMark.LEFT) {
-                    position_time = 1200;
+                    position_time = 1300;
                 } else {
-                    position_time = 700;
+                    position_time = 800;
                 }
 
                 moveTime(-0.5, 0, 0, position_time); // Move forwards to position.
@@ -164,7 +169,10 @@ public abstract class Auto extends initAuto {
                 moveTime(-0.3, 0, 0, 1750); // Go towards box.
                 sleep(sleep_time);
 
-            } else if (!right && teamColor == ColorSensor.ColorName.RED) {
+            }
+
+            // left side and team color red
+            else if (!right && teamColor == ColorSensor.ColorName.RED) {
 
                 sleep(sleep_time);
 
