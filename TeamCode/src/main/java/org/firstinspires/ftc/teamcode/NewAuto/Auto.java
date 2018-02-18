@@ -20,15 +20,25 @@ public abstract class Auto extends initAuto {
         telemetry.addData("Autonomous", "initialized");
         telemetry.update();
 
+        /*
+
         // scan image
         RelicRecoveryVuMark image = imageReg.ScanImage();
 
         telemetry.addData("image is ", image);
         telemetry.update();
 
+        */
+
         waitForStart();
 
         runtime.reset();
+
+        // scan image
+        RelicRecoveryVuMark image = imageReg.ScanImage();
+
+        telemetry.addData("image is ", image);
+        telemetry.update();
 
         // afrer wait for start, code about to start
         telemetry.clear();
