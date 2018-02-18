@@ -13,8 +13,7 @@ public abstract class Auto extends initAuto {
 
         telemetry.clear();
 
-        telemetry.addData("Autonomous", "initing");
-        telemetry.addData("Autonomous", "initialized");
+        telemetry.addData("Autonomous", "initializing");
         telemetry.update();
 
         RelicRecoveryVuMark image = imageReg.ScanImage();
@@ -68,7 +67,8 @@ public abstract class Auto extends initAuto {
         sleep(sleep_time);
 
 
-        telemetry.addData("Autonomous", "raise arm");
+        telemetry.addData("Autonomous", " Arm raised");
+        telemetry.addData("Autonomous", " Now reseting robot position");
         telemetry.update();
 
         if (jewelColor == ColorSensor.ColorName.RED || jewelColor == ColorSensor.ColorName.BLUE) {
@@ -80,6 +80,7 @@ public abstract class Auto extends initAuto {
 
         if (runMovement) {
 
+            // Blue Right Movement
             if (right && teamColor == ColorSensor.ColorName.BLUE) {
 
                 sleep(sleep_time);
@@ -101,6 +102,8 @@ public abstract class Auto extends initAuto {
                 sleep(sleep_time);
 
             } else if (!right && teamColor == ColorSensor.ColorName.BLUE) {
+
+                // Blue Left Movement
 
                 sleep(sleep_time);
 
@@ -129,7 +132,7 @@ public abstract class Auto extends initAuto {
                 sleep(sleep_time);
 
             } else if (right && teamColor == ColorSensor.ColorName.RED) {
-
+                // Red Right Movement
                 sleep(sleep_time);
 
                 moveTime(-0.5, 0, 0, 1600); // Move off of balance.
@@ -159,7 +162,7 @@ public abstract class Auto extends initAuto {
                 sleep(sleep_time);
 
             } else if (!right && teamColor == ColorSensor.ColorName.RED) {
-
+                // Red Left Movement
                 sleep(sleep_time);
 
                 int position_time = 1550;
