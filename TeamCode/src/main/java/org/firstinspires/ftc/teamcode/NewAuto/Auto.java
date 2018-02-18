@@ -7,15 +7,21 @@ public abstract class Auto extends initAuto {
 
     public void autoOpMode(ColorSensor.ColorName teamColor, boolean runMovement, boolean right) {
 
+        // Constants
         int sleep_time = 300;
         double grabber_speed = 0.5;
+        int jewelTurn = 15;
+
+        // init the drivetrain, colorSensor, image reg, jewel arm
         initHardware();
 
         telemetry.clear();
 
-        telemetry.addData("Autonomous", "initializing");
+        telemetry.addData("Autonomous", "initing");
+        telemetry.addData("Autonomous", "initialized");
         telemetry.update();
 
+        // scan image
         RelicRecoveryVuMark image = imageReg.ScanImage();
 
         telemetry.addData("image is ", image);
@@ -25,6 +31,7 @@ public abstract class Auto extends initAuto {
 
         runtime.reset();
 
+        // afrer wait for start, code about to start
         telemetry.clear();
         telemetry.addData("Autonomous", "Auto has began");
         telemetry.addData("Autonomous", "Fasten your seat belts.");
@@ -36,8 +43,7 @@ public abstract class Auto extends initAuto {
         telemetry.update();
         sleep(1000);
 
-        // Knock the Jewel
-
+        // Sense jewel
         ColorSensor.ColorName jewelColor = colorSensor.getColor();
         telemetry.clear();
         telemetry.addData("Autonomous", "JewelColor is " + jewelColor);
@@ -45,9 +51,7 @@ public abstract class Auto extends initAuto {
 
         sleep(sleep_time);
 
-
-        int jewelTurn = 15;
-
+        // knock jewel
         if (jewelColor != ColorSensor.ColorName.UNKNOWN) {
 
             if (jewelColor == teamColor) {
@@ -63,14 +67,15 @@ public abstract class Auto extends initAuto {
 
         }
 
+        // raise arm after knocking jewel
         arm.raiseArm();
         sleep(sleep_time);
 
 
-        telemetry.addData("Autonomous", " Arm raised");
-        telemetry.addData("Autonomous", " Now reseting robot position");
+        telemetry.addData("Autonomous", "raise arm");
         telemetry.update();
 
+        // turns back to initial position on balance board
         if (jewelColor == ColorSensor.ColorName.RED || jewelColor == ColorSensor.ColorName.BLUE) {
 
             jewelTurn = -jewelTurn;
@@ -78,9 +83,9 @@ public abstract class Auto extends initAuto {
 
         }
 
+        // movement
         if (runMovement) {
 
-            // Blue Right Movement
             if (right && teamColor == ColorSensor.ColorName.BLUE) {
 
                 sleep(sleep_time);
@@ -102,8 +107,6 @@ public abstract class Auto extends initAuto {
                 sleep(sleep_time);
 
             } else if (!right && teamColor == ColorSensor.ColorName.BLUE) {
-
-                // Blue Left Movement
 
                 sleep(sleep_time);
 
@@ -132,7 +135,7 @@ public abstract class Auto extends initAuto {
                 sleep(sleep_time);
 
             } else if (right && teamColor == ColorSensor.ColorName.RED) {
-                // Red Right Movement
+
                 sleep(sleep_time);
 
                 moveTime(-0.5, 0, 0, 1600); // Move off of balance.
@@ -144,11 +147,11 @@ public abstract class Auto extends initAuto {
                 int position_time;
 
                 if (image == RelicRecoveryVuMark.RIGHT) {
-                    position_time = 400;
+                    position_time = 300;
                 } else if (image == RelicRecoveryVuMark.LEFT) {
-                    position_time = 1300;
+                    position_time = 1200;
                 } else {
-                    position_time = 800;
+                    position_time = 700;
                 }
 
                 moveTime(-0.5, 0, 0, position_time); // Move forwards to position.
@@ -162,7 +165,7 @@ public abstract class Auto extends initAuto {
                 sleep(sleep_time);
 
             } else if (!right && teamColor == ColorSensor.ColorName.RED) {
-                // Red Left Movement
+
                 sleep(sleep_time);
 
                 int position_time = 1550;
@@ -222,7 +225,7 @@ public abstract class Auto extends initAuto {
             }
 
 
-        } else{
+        } else {
 
             if (image == RelicRecoveryVuMark.LEFT) {
 
@@ -234,7 +237,6 @@ public abstract class Auto extends initAuto {
             }
 
         }
-
 
 
         telemetry.addData("image is ", image);
@@ -301,7 +303,7 @@ public abstract class Auto extends initAuto {
             mySleep(1000);
             moveTime(CYRPTOBOX_SPEED, 0, 0, CYRPTOBOX_TIME);
             mySleep(1000);
-            drivetrain.gyroTurn(Math.abs(CYRPTOBOX_SPEED*1.25), ANGLE_TURN_CYRPTO);
+            drivetrain.gyroTurn(Math.abs(CYRPTOBOX_SPEED * 1.25), ANGLE_TURN_CYRPTO);
             mySleep(1000);
             moveTime(PLACE_BLOCK_SPEED, 0, 0, PLACE_BLOCK_TIME);
             mySleep(1000);
