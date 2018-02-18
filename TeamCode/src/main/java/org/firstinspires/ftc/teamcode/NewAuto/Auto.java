@@ -144,11 +144,11 @@ public abstract class Auto extends initAuto {
                 int position_time;
 
                 if (image == RelicRecoveryVuMark.RIGHT) {
-                    position_time = 300;
+                    position_time = 400;
                 } else if (image == RelicRecoveryVuMark.LEFT) {
-                    position_time = 1200;
+                    position_time = 1300;
                 } else {
-                    position_time = 700;
+                    position_time = 800;
                 }
 
                 moveTime(-0.5, 0, 0, position_time); // Move forwards to position.
