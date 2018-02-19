@@ -100,11 +100,11 @@ public abstract class Auto extends initAuto {
 
                 sleep(sleep_time);
 
-                int position_time = 1600;
+                int position_time = 1700;
                 if (image == RelicRecoveryVuMark.LEFT) {
-                    position_time = 1150;
+                    position_time = 1250;
                 } else if (image == RelicRecoveryVuMark.RIGHT) {
-                    position_time = 2150;
+                    position_time = 2250;
                 }
 
                 moveTime(0.5, 0, 0, position_time); // Move backwards to position.
@@ -130,11 +130,11 @@ public abstract class Auto extends initAuto {
                 sleep(sleep_time);
 
 
-                int position_time = 300;
+                int position_time = 400;
                 if (image == RelicRecoveryVuMark.CENTER) {
-                    position_time = 700;
+                    position_time = 800;
                 } else if (image == RelicRecoveryVuMark.RIGHT) {
-                    position_time = 1300;
+                    position_time = 1400;
                 }
 
                 moveTime(-0.5, 0, 0, position_time); // Move forwards to position.
@@ -162,11 +162,11 @@ public abstract class Auto extends initAuto {
                 int position_time;
 
                 if (image == RelicRecoveryVuMark.RIGHT) {
-                    position_time = 400;
+                    position_time = 500;
                 } else if (image == RelicRecoveryVuMark.LEFT) {
-                    position_time = 1300;
+                    position_time = 1400;
                 } else {
-                    position_time = 800;
+                    position_time = 900;
                 }
 
                 moveTime(-0.5, 0, 0, position_time); // Move forwards to position.
@@ -186,11 +186,11 @@ public abstract class Auto extends initAuto {
 
                 sleep(sleep_time);
 
-                int position_time = 1550;
+                int position_time = 1650;
                 if (image == RelicRecoveryVuMark.CENTER) {
-                    position_time = 2100;
+                    position_time = 2200;
                 } else if (image == RelicRecoveryVuMark.LEFT) {
-                    position_time = 2600;
+                    position_time = 2700;
                 }
 
                 moveTime(-0.5, 0, 0, position_time); // Move forwards to position.
